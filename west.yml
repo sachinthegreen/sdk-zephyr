@@ -23,6 +23,8 @@ manifest:
       url-base: https://github.com/zephyrproject-rtos
     - name: babblesim
       url-base: https://github.com/BabbleSim
+    - name: krish
+      url-base: https://github.com/krish2718
 
   group-filter: [-babblesim, -optional]
 
@@ -188,7 +190,8 @@ manifest:
       groups:
         - hal
     - name: hal_nordic
-      revision: af7b21c4f875bea26689307daa8e52e9a8e8323c
+      remote: krish
+      revision: nrf70_offloaded_raw_tx
       path: modules/hal/nordic
       groups:
         - hal
