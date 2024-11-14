@@ -21,6 +21,8 @@ manifest:
   remotes:
     - name: upstream
       url-base: https://github.com/zephyrproject-rtos
+    - name: sachin
+      url-base: https://github.com/sachinthegreen
     - name: babblesim
       url-base: https://github.com/BabbleSim
 
@@ -188,7 +190,8 @@ manifest:
       groups:
         - hal
     - name: hal_nordic
-      revision: 5c8d109371ebb740fbef1f440a3b59e488a36717
+      remote: sachin
+      revision: nrf700x-mem-test
       path: modules/hal/nordic
       groups:
         - hal

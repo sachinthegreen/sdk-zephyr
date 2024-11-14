@@ -79,6 +79,45 @@ int nrf_wifi_util_conf_init(struct rpu_conf_params *conf_params)
 	return 0;
 }
 
+static int nrf_wifi_util_memtest(const struct shell *sh,
+				 size_t argc,
+				 const char *argv[])
+{
+	enum nrf_wifi_status status = NRF_WIFI_STATUS_FAIL;
+	char *ptr = NULL;
+	unsigned long mem_area = 0;
+	unsigned long num_times = 0;
+
+	mem_area = strtoul(argv[1], &ptr, 10);
+
+	if (mem_area > 0) {
+		shell_fprintf(sh,
+			      SHELL_ERROR,
+			      "Invalid memory(%lu).\n",
+			      mem_area);
+		shell_help(sh);
+		return -ENOEXEC;
+	}
+
+	num_times = strtoul(argv[2], &ptr, 10);
+
+	status = nrf_wifi_fmac_memtest(ctx->rpu_ctx,
+				       mem_area,
+				       num_times);
+
+	if (status != NRF_WIFI_STATUS_SUCCESS) {
+		shell_fprintf(sh,
+			      SHELL_ERROR,
+			      "Memtest failed\n");
+		return -ENOEXEC;
+	}
+
+	shell_fprintf(sh,
+		      SHELL_INFO,
+		      "Memtest passed\n");
+
+	return 0;
+}
 
 static int nrf_wifi_util_set_he_ltf(const struct shell *sh,
 				    size_t argc,
@@ -919,6 +958,13 @@ unlock:
 
 SHELL_STATIC_SUBCMD_SET_CREATE(
 	nrf_wifi_util_subcmds,
+	SHELL_CMD_ARG(memtest,
+		      NULL,
+		      "0 - PKTRAM\n"
+		      "<num_times>",
+		      nrf_wifi_util_memtest,
+		      3,
+		      0),
 	SHELL_CMD_ARG(he_ltf,
 		      NULL,
 		      "0 - 1x HE LTF\n"
