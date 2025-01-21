@@ -119,7 +119,7 @@ zephyr_library_sources(
   ${NRF_WIFI_DIR}/utils/src/list.c
   ${NRF_WIFI_DIR}/utils/src/queue.c
   ${NRF_WIFI_DIR}/utils/src/util.c
-  ${NRF_WIFI_DIR}/hw_if/hal/src/hal_api.c
+  ${NRF_WIFI_DIR}/hw_if/hal/src/hal_api_common.c
   ${NRF_WIFI_DIR}/hw_if/hal/src/hal_fw_patch_loader.c
   ${NRF_WIFI_DIR}/hw_if/hal/src/hal_interrupt.c
   ${NRF_WIFI_DIR}/hw_if/hal/src/hal_mem.c
@@ -128,8 +128,8 @@ zephyr_library_sources(
   ${NRF_WIFI_DIR}/hw_if/hal/src/pal.c
   ${NRF_WIFI_DIR}/bus_if/bal/src/bal.c
   ${NRF_WIFI_DIR}/bus_if/bus/qspi/src/qspi.c
-  ${NRF_WIFI_DIR}/fw_if/umac_if/src/cmd.c
-  ${NRF_WIFI_DIR}/fw_if/umac_if/src/event.c
+  ${NRF_WIFI_DIR}/fw_if/umac_if/src/fmac_cmd_common.c
+  ${NRF_WIFI_DIR}/fw_if/umac_if/src/fmac_event_common.c
   ${NRF_WIFI_DIR}/fw_if/umac_if/src/fmac_api_common.c
 )
 

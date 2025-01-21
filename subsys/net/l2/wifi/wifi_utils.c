@@ -124,7 +124,8 @@ static int wifi_utils_get_all_chans_in_range(uint8_t chan_start,
 		uint8_t chan_end,
 		struct wifi_band_channel *band_chan,
 		uint8_t band_idx,
-		uint8_t *chan_idx)
+		uint8_t *chan_idx,
+		uint8_t max_channels)
 {
 	uint8_t i;
 	bool start = false;
@@ -153,6 +154,11 @@ static int wifi_utils_get_all_chans_in_range(uint8_t chan_start,
 		idx = *chan_idx;
 
 		for (i = chan_start+1; i <= chan_end; i++) {
+			if (idx >= max_channels) {
+				NET_ERR("Exceeded maximum allowed channels (%d)", max_channels);
+				return -EINVAL;
+			}
+
 			band_chan[idx].band = band_idx;
 			band_chan[idx].channel = i;
 			idx++;
@@ -175,6 +181,11 @@ static int wifi_utils_get_all_chans_in_range(uint8_t chan_start,
 			}
 
 			if (start) {
+				if (idx >= max_channels) {
+					NET_ERR("Exceeded maximum allowed channels (%d)", max_channels);
+					return -EINVAL;
+				}
+
 				band_chan[idx].band = band_idx;
 				band_chan[idx].channel = valid_5g_chans_20mhz[i];
 				idx++;
@@ -193,6 +204,11 @@ static int wifi_utils_get_all_chans_in_range(uint8_t chan_start,
 		i = wifi_utils_get_next_chan_6g(chan_start);
 
 		while (i <= chan_end) {
+			if (idx >= max_channels) {
+				NET_ERR("Exceeded maximum allowed channels (%d)", max_channels);
+				return -EINVAL;
+			}
+
 			band_chan[idx].band = band_idx;
 			band_chan[idx].channel = i;
 			idx++;
@@ -384,7 +400,8 @@ int wifi_utils_parse_scan_chan(char *scan_chan_str,
 								      chan_val,
 								      band_chan,
 								      band,
-								      &chan_idx)) {
+								      &chan_idx,
+								      max_channels)) {
 					NET_ERR("Channel range invalid");
 					return -EINVAL;
 				}
